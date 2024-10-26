@@ -20,6 +20,14 @@ body{
     
 }
 
+.sucesso input{
+    border-color: green;
+}
+.error input{
+    border-color: red;
+}
+
+
 .form{
     display: flex;
     flex-direction: column;
@@ -27,6 +35,15 @@ body{
     height: 100%;
     padding: 15px;
     gap: 10px;
+}
+
+.form-control small{
+    color: red;
+    visibility: hidden;
+}
+
+.error small{
+    visibility: visible;
 }
 
 h1{
