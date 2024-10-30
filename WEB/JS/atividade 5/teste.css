@@ -1,0 +1,9 @@
+/* logo 1 */
+
+position: absolute;
+width: 150px;
+height: 80px;
+left: 375px;
+top: calc(50% - 80px/2 - 836px);
+
+background: url(logo.png);
