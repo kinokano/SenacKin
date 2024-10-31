@@ -33,7 +33,7 @@ a:hover{
     height: 70px;
     justify-content: center;
     align-items: center;
-    gap: 5px;
+    gap: 12px;
 }
 
 .userInfo{
@@ -61,5 +61,31 @@ a:hover{
 
 .flecha{
     width: 30px;
-    height: 30px;
+    height: 18px;
 }
+
+.displayOff{
+    display: none;
+}
+
+.displayOn{
+    display: block;
+}
+
+.sino:hover{
+    cursor: pointer;
+}
+
+.flecha:hover{
+    cursor: pointer;
+}
+
+.flechaCima{
+    width: 30px;
+    height: 18px;
+}
+
+.flechaCima:hover{
+    cursor: pointer;
+}
+
