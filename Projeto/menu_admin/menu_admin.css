@@ -43,6 +43,7 @@
     display: flex;
     align-items: center;
     padding-left: 30px;
+    transition-duration: 0.4s;
 }
 
 .sair{
@@ -58,9 +59,19 @@
     align-items: center;
     padding-left: 30px;
     margin-bottom: 50px;
+    transition-duration: 0.4s;
+}
+
+.sair:hover{
+    cursor: pointer;
+    background-color: rgba(210, 74, 244, 0.884);
 }
 
 .iconeMenu{
     margin-right: 30px;
 }
 
+.botoesMenu button:hover{
+    cursor: pointer;
+    background-color: rgba(252, 103, 29, 0.89);
+}
