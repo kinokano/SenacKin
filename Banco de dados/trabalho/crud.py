@@ -30,10 +30,12 @@ class Database:
             valores = (nome,senha)
             cursor.execute(query,valores)
             conexao.commit()
+            return True
             print("Dados inseridos com sucesso!")
         
         except Error as e:
             print(f"Erro ao inserir: {e}")
+            return False
 
     def getUsuarios(self, conexao):
         try:
