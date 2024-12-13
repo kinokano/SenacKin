@@ -1,68 +1,95 @@
-CREATE DATABASE TrabalhoT31;
-USE TrabalhoT31;
+CREATE DATABASE Sistema;
+USE Sistema;
 
-CREATE TABLE usuarios(
-	id int primary key not null auto_increment,
-    nome varchar(50) not null unique,
-    senha varchar(50) not null
+CREATE TABLE Usuarios(
+	id int not null auto_increment primary key,
+    nome VARCHAR(255) NOT NULL,
+    login VARCHAR(255) NOT NULL UNIQUE,
+    senha VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE Produtos(
+	id int not null auto_increment primary key,
+    nome VARCHAR(255) NOT NULL,
+    descricao TEXT,
+    estoque int not null,
+    valor decimal(10,2) not null
+);
+
+CREATE TABLE Vendas(
+	id int not null auto_increment primary key,
+    idVendedor int not null,
+    foreign key (idVendedor) references Usuarios(id),
+    nomeCliente VARCHAR(255) NOT NULL,
+    cpf VARCHAR(14) NOT NULL,
+    endereco TEXT NOT NULL,
+    formaPagamento ENUM('à vista', 'parcelado') NOT NULL,
+    idProduto INT NOT NULL,
+    foreign key (idProduto) references Produtos(id),
+    entrada DECIMAL(10,2) DEFAULT 0,
+    quantidadeParcelas INT DEFAULT 0,
+    valorParcela DECIMAL(10,2) DEFAULT 0,
+    quantidade INT NOT NULL,
+    valorTotal DECIMAL(10, 2) NOT NULL,
+    dataVenda DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+
+);
+
+
+delimiter ||
+
+CREATE TRIGGER TotalVenda
+BEFORE INSERT ON Vendas
+FOR EACH ROW
+BEGIN
+    DECLARE valor_produto DECIMAL(10,2);
+
+    -- Buscar o valor do produto na tabela Produto
+    SELECT valor INTO valor_produto
+    FROM Produtos
+    WHERE id = NEW.idProduto;
+
+    -- Calcular o total e atribuir ao campo 'total'
+    SET NEW.valorTotal = valor_produto * NEW.quantidade;
     
-);
-
-CREATE TABLE produtos(
-	id int primary key not null auto_increment,
-    nome varchar(50) not null,
-    descricao text,
-    estoque int,
-    valor decimal(10,2)
-);
-
-CREATE TABLE vendas(
-	id int primary key not null auto_increment,
-    nomeCliente varchar(50) not null,
-    cpfCliente varchar(15) not null,
-    formaPagamento varchar(10) not null,
-    parcelas int,
-    idProduto int not null,
-    foreign key (idProduto) references produtos(id),
-    qtdProduto int,
-    idVendedor int not null,     
-    foreign key (idVendedor) references usuarios(id),
-    dataVenda date,
-    valorVenda decimal(10,2) default 0
-);
-
-
-delimiter |
-
-CREATE TRIGGER atualizarQtdProduto
-AFTER INSERT ON vendas 
-FOR EACH ROW 
-BEGIN 
-	UPDATE vendas SET valorVenda = (qtdProduto * valor) 
-    WHERE idProduto = produtos.id;
-	UPDATE produtos SET estoque = (estoque - new.qtdProduto)
-	WHERE id = new.idProduto;
+   
+   IF NEW.formaPagamento =  'à vista' THEN
+        SET NEW.entrada = NEW.valorTotal;
+    END IF;
+    
+    IF NEW.formaPagamento =  'parcelado' THEN
+		SET NEW.valorParcela = (NEW.valorTotal- NEW.entrada)/NEW.quantidadeParcelas;
+    END IF;
+    
 END;
-|
 
-delimiter ;
+CREATE TRIGGER AtualizarEstoque
+AFTER INSERT ON Vendas
+FOR EACH ROW
+BEGIN
+    
+    UPDATE Produtos
+    SET estoque = estoque - NEW.quantidade
+    WHERE id = NEW.idProduto;
+    
+    
+END;
 
-INSERT INTO usuarios(nome,senha) VALUES ('admin','admin'), ('vendedor1','vendedor1');
-INSERT INTO produtos(nome,descricao,estoque,valor) VALUES ("Garrafa d'água","Garrafa d'água Crystal 500ml", 50, 2.99);
-INSERT INTO produtos(nome,descricao,estoque,valor) VALUES ("Chocolate","Chocolate 100gr", 10, 5.99);
-INSERT INTO vendas(nomeCliente, cpfCliente, formaPagamento, parcelas, idProduto, qtdProduto, idVendedor, dataVenda) 
-VALUES ("Calebe", "000.000.000-00", "À vista", 1, 1,1,2,"2024-12-03");
-INSERT INTO vendas(nomeCliente, cpfCliente, formaPagamento, parcelas, idProduto, qtdProduto, idVendedor, dataVenda) 
-VALUES ("Calebe", "000.000.000-00", "À vista", 1, 2,2,2,"2024-12-03");
+||
+DELIMITER ;
 
-SELECT * FROM produtos;
-SELECT * FROM vendas;
+INSERT INTO Usuarios(nome, login, senha) Values ('admin','admin','admin'),('vendedor1','vendedor1','vendedor1'),('vendedor2','vendedor2','vendedor2'),('vendedor3','vendedor3','vendedor3');
+SELECT * FROM Usuarios;
+INSERT INTO Produtos(nome, descricao, estoque, valor) VALUES ('AGUA', 'GARRAFA DE AGUA', 20, 2.99),("CHOCOLATE","BARRA DE CHOCOLATE", 50, 5.99),("BOLACHA", "BOLACHA PASSATEMP", 60, 3.99);
+SELECT * FROM Produtos;
+INSERT INTO Vendas(idVendedor, nomeCliente, cpf, endereco, formaPagamento, idProduto, quantidade) VALUES (2, 'Calebe','999.999.999-00', 'Rua 12', 'à vista', 1, 2);
+INSERT INTO Vendas(idVendedor, nomeCliente, cpf, endereco, formaPagamento, idProduto, entrada, quantidadeParcelas, quantidade) VALUES (3, 'Derek','999.999.999-01', 'Rua 13', 'parcelado', 2, 10.00 ,4, 5);
+INSERT INTO Vendas(idVendedor, nomeCliente, cpf, endereco, formaPagamento, idProduto, quantidadeParcelas, quantidade) VALUES (4, 'Arthur','999.999.999-02', 'Rua 14', 'parcelado', 3, 6, 10);
+SELECT * FROM Produtos;
+SELECT * FROM Vendas;
 
+SELECT u.nome as Vendedor, v.nomeCliente as Cliente, v.cpf as CPF, v.endereco as Endereço, v.formaPagamento as Pagamento, v.quantidadeParcelas as Parcelas, p.nome as Produto, v.quantidade as Quantidade, v.valorTotal as Total, v.dataVenda as DataVenda
+FROM Vendas v JOIN Usuarios u ON u.id = v.idVendedor JOIN Produtos p ON p.id = v.idProduto;
 
-
-
-
-
-
-
-
+SELECT u.nome as Vendedor, v.nomeCliente as Cliente, v.cpf as CPF, v.endereco as Endereço, v.formaPagamento as Pagamento, v.entrada as Entrada, v.quantidadeParcelas as Parcelas, v.valorParcela as ValorParcela,p.nome as Produto, v.quantidade as Quantidade, v.valorTotal as Total, v.dataVenda as DataVenda
+FROM Vendas v JOIN Usuarios u ON u.id = v.idVendedor JOIN Produtos p ON p.id = v.idProduto WHERE MONTH(dataVenda) = 12;
