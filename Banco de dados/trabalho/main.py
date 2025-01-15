@@ -16,9 +16,10 @@ def verificar_login(root, telaLogin):
     
     usuarios = database.getUsuarios(conexao)
     # Credenciais de exemplo
+
     for i in usuarios:
        
-        if usuario == i[1] and senha == i[2]:
+        if usuario == i[2] and senha == i[3]:
             if usuario == 'admin':
                 messagebox.showinfo("Login Bem-sucedido", "Bem-vindo, " + usuario + "!")
                 telaAdm(root, telaLogin)
@@ -26,7 +27,7 @@ def verificar_login(root, telaLogin):
                 # Fecha a tela de login
             else:
                 messagebox.showinfo("Login Bem-sucedido", "Bem-vindo, " + usuario + "!")
-                telaVendedor()
+                telaVendedor(root, telaLogin, i[0])
                 break
     else:
         messagebox.showerror("Erro", "Usuário ou senha incorretos!")
@@ -57,20 +58,42 @@ def fecharTela(a, b):
     a.pack_forget()  # Esconde a tela atual
     b.pack()
 
-def telaVendedor(root, telaLogin):
+def telaVendedor(root, telaLogin, idVendedor):
+    telaLogin.pack_forget()
     telaVendedor = tk.Frame(root,bg='lightblue')
     
 
     titulo = tk.Label(telaVendedor, text="Tela do Vendedor!", font=("Arial", 14))
     titulo.pack(pady=20)
 
+    botao_realizarVenda = tk.Button(telaVendedor, text="Realizar Venda", command= lambda: telaVenda(root, telaVendedor, idVendedor))
+    botao_realizarVenda.pack(pady=20)
 
-    botao_sair = tk.Button(telaVendedor, text="Sair", command=telaVendedor.destroy)
+    botao_sair = tk.Button(telaVendedor, text="Sair", command= lambda: fecharTela(telaVendedor, telaLogin))
     botao_sair.pack(pady=20)
 
     telaVendedor.pack()
 
+def telaVenda(root, telaVendedor, idVendedor):
+    telaVendedor.pack_forget()
+    telaVenda = tk.Frame(root, bg='lightblue')
+    
+    titulo = tk.Label(telaVenda, text="Tela de venda!", font=("Arial", 14))
+    titulo.pack(pady=20)
+    
+    label_nomeCliente = tk.Label(telaVenda, text="Nome Cliente:")
+    label_nomeCliente.pack(pady=5)
+    entry_nomeCliente = tk.Entry(telaVenda)
+    entry_nomeCliente.pack(pady=5)
 
+    botao_realizarVenda = tk.Button(telaVenda, text="Cadastrar", command=lambda: realizarVenda(idVendedor, entry_user, entry_password))
+    botao_realizarVenda.pack(pady=20)
+
+    botao_sair = tk.Button(telaVenda, text="Sair", command= lambda: fecharTela(telaVenda, telaVendedor))
+    botao_sair.pack(pady=20)
+
+    telaVenda.pack()
+    
 def telaCadastrar(root, telaAdm):
     telaAdm.pack_forget()
     telaCadastrar = tk.Frame(root,bg='lightblue')
@@ -78,7 +101,13 @@ def telaCadastrar(root, telaAdm):
     titulo = tk.Label(telaCadastrar, text="Tela de Cadastro!", font=("Arial", 14))
     titulo.pack(pady=20)
     
-    label_user = tk.Label(telaCadastrar, text="Usuário:")
+    label_name = tk.Label(telaCadastrar, text="Nome:")
+    label_name.pack(pady=5)
+    entry_name = tk.Entry(telaCadastrar)
+    entry_name.pack(pady=5)
+
+
+    label_user = tk.Label(telaCadastrar, text="Username:")
     label_user.pack(pady=5)
     entry_user = tk.Entry(telaCadastrar)
     entry_user.pack(pady=5)
@@ -88,7 +117,7 @@ def telaCadastrar(root, telaAdm):
     label_password.pack(pady=5)
     entry_password = tk.Entry(telaCadastrar, show="*")
     entry_password.pack(pady=5)
-    botao_cadastrar = tk.Button(telaCadastrar, text="Cadastrar", command=lambda: cadastrar(entry_user, entry_password))
+    botao_cadastrar = tk.Button(telaCadastrar, text="Cadastrar", command=lambda: cadastrarUsuario(entry_name, entry_user, entry_password))
     botao_cadastrar.pack(pady=20)
 
     botao_sair = tk.Button(telaCadastrar, text="Sair", command= lambda: fecharTela(telaCadastrar, telaAdm))
@@ -97,14 +126,25 @@ def telaCadastrar(root, telaAdm):
 
     telaCadastrar.pack()
 
-def cadastrar(a, b):
+def cadastrarUsuario(nome, user, password):
    
-    cadastro = database.cadastrarUsuario(conexao, a.get(), b.get())
-    a.delete(0, tk.END)
-    b.delete(0, tk.END)
+    cadastro = database.cadastrarUsuario(conexao, nome.get(), user.get(), password.get())
+    nome.delete(0, tk.END)
+    user.delete(0, tk.END)
+    password.delete(0, tk.END)
 
+def realizarVenda(idVendedor, nomeCliente, cpf, endereco, formaPagamento, idProduto, entrada, quantidadeParcelas, quantidade):
     
-
+    cadastro = database.realizarVenda(conexao, idVendedor.get(), nomeCliente.get(), cpf.get(), endereco.get(), formaPagamento.get(), idProduto.get(), entrada.get(), quantidadeParcelas.get(), quantidade.get())
+    idVendedor.delete(0, tk.END)
+    nomeCliente.delete(0, tk.END)
+    cpf.delete(0, tk.END)
+    endereco.delete(0, tk.END)
+    formaPagamento.delete(0, tk.END)
+    idProduto.delete(0, tk.END)
+    entrada.delete(0, tk.END)
+    quantidadeParcelas.delete(0, tk.END)
+    quantidade.delete(0, tk.END)
 
 # Janela de login
 root = tk.Tk()
@@ -112,7 +152,6 @@ root.geometry("500x500")
 root.configure(bg='lightblue')
 
 telaLogin = tk.Frame(root,bg='lightblue')
-
 
 # Rótulo e entrada para o nome de usuário
 label_usuario = tk.Label(telaLogin, text="Usuário:")
@@ -132,6 +171,8 @@ botao_login.pack(pady=20)
 
 botao_sair = tk.Button(telaLogin, text="Sair", command=root.destroy)
 botao_sair.pack(pady=20)
+
 telaLogin.pack()
+
 # Iniciar a interface gráfica de login
 root.mainloop()

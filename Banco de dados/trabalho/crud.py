@@ -12,7 +12,7 @@ class Database:
                 host = 'localhost',
                 user = 'root',
                 password = '',
-                database = 'TrabalhoT31'
+                database = 'Sistema'
             )
 
             if conexao.is_connected():
@@ -23,19 +23,35 @@ class Database:
             print(f"Erro ao conectar: {e}")
             return None
         
-    def cadastrarUsuario(self, conexao, nome, senha):
+    def cadastrarUsuario(self, conexao, nome, login, senha):
         try:
             cursor = conexao.cursor()
-            query = "INSERT INTO usuarios(nome, senha) VALUES (%s,%s)"
-            valores = (nome,senha)
+            query = "INSERT INTO usuarios(nome, login, senha) VALUES (%s,%s,%s)"
+            valores = (nome, login, senha)
             cursor.execute(query,valores)
             conexao.commit()
+            print("USUARIO INSERIDO!")
             return True
-            print("Dados inseridos com sucesso!")
+            
         
         except Error as e:
             print(f"Erro ao inserir: {e}")
             return False
+    
+    def realizarVenda(self, conexao, idVendedor, nomeCliente, cpf, endereco, formaPagamento, idProduto, entrada, quantidadeParcelas, quantidade):
+        try:
+            cursor = conexao.cursor()
+            query = "INSERT INTO Vendas(idVendedor, nomeCliente, cpf, endereco, formaPagamento, idProduto, entrada, quantidadeParcelas, quantidade) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+            valores = (idVendedor, nomeCliente, cpf, endereco, formaPagamento, idProduto, entrada, quantidadeParcelas, quantidade)
+            cursor.execute(query,valores)
+            conexao.commit()
+            print("Venda inserida!")
+            return True
+        
+        except Error as e:
+            print(f"Erro ao inserir: {e}")
+            return False
+
 
     def getUsuarios(self, conexao):
         try:
