@@ -1,12 +1,18 @@
 from rest_framework import viewsets
-from api.models import Funcionario
-from api.serializers import FuncionarioSerializer
+from api.models import Funcionario, Categoria, Produto
+from api.serializers import FuncionarioSerializer, CategoriaSerializer, ProdutoSerializer
 
 class FuncionarioViewSet(viewsets.ModelViewSet):
     queryset = Funcionario.objects.all()
     serializer_class = FuncionarioSerializer
     
+class CategoriaViewSet(viewsets.ModelViewSet):
+    queryset = Categoria.objects.all()
+    serializer_class = CategoriaSerializer
 
+class ProdutoViewSet(viewsets.ModelViewSet):
+    queryset = Produto.objects.all()
+    serializer_class = ProdutoSerializer
 
 # from django.shortcuts import render
 
