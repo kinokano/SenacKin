@@ -1,0 +1,28 @@
+<table>
+    <thead>
+        <tr>
+            <td>ID</td>
+            <td>Valor</td>
+            <td>Data</td>
+            <td>Horario</td>
+            <td>Descricao</td>
+            <td>Usuario</td>
+            
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            {% for i in gasto%}
+            <td>{{i.id}}</td>
+            <td>{{i.valor}}</td>
+            <td>{{i.data}}</td>
+            <td>{{i.horario}}</td>
+            <td>{{i.descricao}}</td>
+            <td>{{i.usuario}}</td>
+            {% endfor%}
+        </tr>
+    </tbody>
+
+
+
+</table>
