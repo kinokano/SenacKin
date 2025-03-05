@@ -12,8 +12,8 @@ class Usuarios(models.Model):
 class Gastos(models.Model):
     nome = models.CharField( max_length=255, null=False, blank=False)
     valor = models.DecimalField(max_digits=8, decimal_places=2, null=False, blank=False)
-    horario = models.TimeField(auto_now=True)
-    data = models.DateField(auto_now=True)
+    horario = models.TimeField(null=True, blank=True)
+    data = models.DateField(null=True, blank=True)
     descricao = models.TextField()
     usuario = models.ForeignKey(Usuarios, on_delete=models.CASCADE)
 

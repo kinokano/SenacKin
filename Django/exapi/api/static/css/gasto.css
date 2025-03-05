@@ -1,0 +1,118 @@
+
+*{
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  font-family: "Roboto Mono",monospace;
+  vertical-align: baseline;
+}
+
+body{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #444c6c;
+}
+
+.main{
+  display: flex;
+  flex-direction: column;
+  background-color: #343c54;
+  padding: 20px;
+  min-height: 45%;
+  width: 350px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.gasto{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.voltar{
+  width: 100%;
+}
+
+.voltar button{
+  background-color: #a84b60;
+  color: white;
+  height: 30px;
+  width: 100%;
+}
+
+.voltar button:hover{
+  transition: 0.2s ease-in-out ;
+  background-color: #853a4c;
+  cursor: pointer;
+}
+
+.gasto label{
+  color: white;
+  font-size:large;
+  font-weight: bold;
+}
+
+.gasto input[type="text"]{
+font-family: inherit;
+width: 100%;
+border: 0;
+border-bottom: 2px solid rgb(255, 255, 255);
+outline: 0;
+font-size: 1.3rem;
+color: white;
+padding: 7px 0;
+background: transparent;
+transition: border-color 0.2s;
+
+}
+
+.gasto button{
+  color: black;
+  background-color: #63F57B;
+  height: 30px;
+  width: 100%;
+}
+
+.gasto button:hover{
+  transition: 0.2s ease-in-out ;
+  background-color: #48b35a;
+  cursor: pointer;
+}
+
+.gasto input[type="date"]{
+  background-color: #343c54;
+  padding: 15px;
+  color: #ffffff;
+  border: 1px solid;
+  outline: none;
+  border-radius: 5px;
+}
+
+::-webkit-calendar-picker-indicator{
+  background-color: #ffffff;
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.gasto input[type="time"]{
+  background-color: #343c54;
+  padding: 15px;
+  color: #ffffff;
+  border: 1px solid;
+  outline: none;
+  border-radius: 5px;
+
+}
+
+.msg{
+  color: white;
+  margin-top: 15px;
+}

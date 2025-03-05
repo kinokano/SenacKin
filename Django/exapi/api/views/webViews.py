@@ -8,3 +8,9 @@ def usuarios(request):
 def gastos(request):
     gastos = Gastos.objects.all()
     return render(request, 'gastos.html', {'gastos': gastos})
+
+def index(request):
+    return render(request, 'index.html')
+
+def cadastrar(request):
+    return render(request, 'cadastrar.html')

@@ -1,0 +1,45 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar</title>
+    <link rel="stylesheet" href="{% static 'css/cadastrar.css'%}">
+</head>
+<body>
+
+    <div class="cadastro">
+        <a href="/" class="voltar">
+            <button>
+            Voltar
+            </button>
+        </a>
+    
+
+    <form method="POST" class="form-cadastro" id="formCadastro">
+        
+        {% csrf_token %} 
+        <h1 class="titulo">Cadastrar</h1>
+
+        <label for="nome">Nome</label>
+        <input type="text" id="nome" placeholder="Digite seu nome" require>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="Digite seu email" require>
+
+        <label for="senha">Senha</label>
+        <input type="password" id="senha" placeholder="Digite sua senha" require>
+
+        <button type="submit">Cadastrar</button>
+
+        <h1>  </h1>
+
+    </form>
+    
+    </div>
+    
+    <script src="{% static 'js/cadastrar.js'%}"></script>
+</body>
+</html>

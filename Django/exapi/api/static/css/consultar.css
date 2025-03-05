@@ -1,0 +1,147 @@
+.displayOff{
+    display: none;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    font-family: "Roboto Mono",monospace;
+    vertical-align: baseline;
+  }
+  
+  body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #444c6c;
+  }
+  
+  .main{
+    display: flex;
+    flex-direction: column;
+    background-color: #343c54;
+    padding: 20px;
+    width: 800px;
+    align-items: center;
+  }
+
+  .voltar{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+  }
+  
+  .voltar button{
+    background-color: #a84b60;
+    color: white;
+    height: 30px;
+    width: 25%;
+  }
+  
+  .voltar button:hover{
+    transition: 0.2s ease-in-out ;
+    background-color: #853a4c;
+    cursor: pointer;
+  }
+
+table {
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: normal;
+    border: none;
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 100%;
+    background-color: white;
+}
+
+td, th {
+    text-align: center;
+    padding: 8px;
+    width: 100%;
+
+}
+
+td {
+    font-size: 12px;
+}
+
+thead th {
+    color: #ffffff;
+    background: black;
+}
+
+th{
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+tr{ 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+tr:nth-child(even) {
+    background: #EEEEEE;
+}
+
+.formApagar{
+    width: 100%;
+}
+
+.apagar{
+    background-color: #a84b60;
+    color: white;
+    width: 50%;
+    height: 20px;
+
+}
+
+.apagar:hover{
+    transition: 0.2s ease-in-out ;
+    background-color: #853a4c;
+    cursor: pointer;
+}
+
+.msg{
+  margin-top: 20px;
+  color: white;
+}
+
+.total td{
+  text-align: right;
+  margin-right: 30px;
+  font-size: large;
+  font-weight: bold;
+}
+
+select{
+  background-color: rgba(255, 255, 255, 0.616);
+}
+
+.filtro{
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filtro button{
+  background-color: #4ba86a;
+    color: white;
+    height: 35px;
+    padding: 10px;
+
+}
+
+.filtro button:hover{
+  transition: 0.2s ease-in-out ;
+  background-color: #34774b;
+  cursor: pointer;
+}
