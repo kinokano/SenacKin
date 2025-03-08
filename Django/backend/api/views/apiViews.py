@@ -1,7 +1,7 @@
 from rest_framework import viewsets
-from api.models import Aluno
-from api.serializers import AlunoSerializer
+from api.models import *
+from api.serializers import *
 
-class AlunoViewSet(viewsets.ModelViewSet):
-    queryset = Aluno.objects.all()
-    serializer_class = AlunoSerializer
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = CustomUser.objects.all()
+    serializer_class = UserSerializer

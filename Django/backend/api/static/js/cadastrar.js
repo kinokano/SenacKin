@@ -5,12 +5,12 @@ async function enviarFormulario(evento){
     var email = document.getElementById('email').value
     var msg = document.getElementById('msg')
 
-    const resposta = await fetch('/api/alunos/', {
+    const resposta = await fetch('/api/user/', {
         method: 'POST',
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({nome: nome, email: email})
+        body: JSON.stringify({username: nome, password: email})
     })
 
     if(resposta.ok){
